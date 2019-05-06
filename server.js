@@ -16,11 +16,22 @@ app.use(bodyParser.json());
 // DB Config
 const db = require('./config/keys').mongoURI;
 
+// Set cros headers
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, DELETE, PUT, PATCH'
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 // Connect to MongoDB
 mongoose
   .connect(db)
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
