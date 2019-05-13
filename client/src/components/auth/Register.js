@@ -26,7 +26,6 @@ const Register = () => {
         password2
       };
 
-      console.log(newUser);
       try {
         const config = {
           headers: {
