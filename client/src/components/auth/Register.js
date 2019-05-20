@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alertActions';
+import { register } from '../../actions/authActions';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Register = (props) => {
+const Register = ({ setAlert, register }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,9 +21,9 @@ const Register = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      props.setAlert('Wrong password', 'danger');
+      setAlert('Wrong password', 'danger');
     } else {
-      console.log('SUCCESS');
+      register({ name, email, password });
     }
   };
 
@@ -41,7 +43,7 @@ const Register = (props) => {
             type='text'
             placeholder='Name'
             name='name'
-            required
+            // required
             onChange={(e) => onChange(e)}
             value={name}
           />
@@ -61,20 +63,20 @@ const Register = (props) => {
         </div>
         <div className='form-group'>
           <input
-            type='text'
+            type='password'
             placeholder='Password'
             name='password'
-            minLength='6'
+            // minLength='6'
             onChange={(e) => onChange(e)}
             value={password}
           />
         </div>
         <div className='form-group'>
           <input
-            type='text'
+            type='passowrd'
             placeholder='Confirm Password'
             name='password2'
-            minLength='6'
+            // minLength='6'
             onChange={(e) => onChange(e)}
             value={password2}
           />
@@ -88,7 +90,12 @@ const Register = (props) => {
   );
 };
 
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired
+};
+
 export default connect(
   null,
-  { setAlert }
+  { setAlert, register }
 )(Register);
