@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://PavelSz:cvF8LN8pIrSR2Cyn@clusterpavel-c57xi.mongodb.net/devconn?retryWrites=true",
+  "jwtSecret": "secret",
+  "githubClientId": "",
+  "githubSecret": ""
+}

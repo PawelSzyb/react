@@ -73,7 +73,7 @@ const Register = ({ setAlert, register }) => {
         </div>
         <div className='form-group'>
           <input
-            type='passowrd'
+            type='password'
             placeholder='Confirm Password'
             name='password2'
             // minLength='6'
