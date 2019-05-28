@@ -13,6 +13,12 @@ const Navbar = ({ auth: { isAuthenticated, isLoading }, logout }) => {
           <span className='hide-sm'>Logout</span>
         </NavLink>
       </li>
+      <li>
+        <NavLink to='/dashboard'>
+          <i className='fas fa-user' />{' '}
+          <span className='hide-sm'>Dashboard</span>
+        </NavLink>
+      </li>
     </ul>
   );
 
