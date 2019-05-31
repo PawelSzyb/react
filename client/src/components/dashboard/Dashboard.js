@@ -13,14 +13,13 @@ const Dashboard = ({
   useEffect(() => {
     getCurrentProfile();
   }, []);
-  console.log(profile);
   return isLoading && profile === null ? (
     <Spinner />
   ) : (
     <>
       <h1 className='large text-primary'>Dashboard</h1>
       <p className='lead'>
-        <i className='fas fa-user'>Welcome {user && user.name}</i>
+        <i className='fas fa-user' />Welcome {user && user.name}
       </p>
       {profile === null || !profile ? (
         <>
