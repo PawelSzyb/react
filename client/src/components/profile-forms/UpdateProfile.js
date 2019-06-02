@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import { createOrUpdateProfile } from '../../actions/profileActions';
+import {
+  createOrUpdateProfile,
+  getCurrentProfile
+} from '../../actions/profileActions';
 import PropTypes from 'prop-types';
 
-const CreateProfile = ({ createOrUpdateProfile, history }) => {
+const UpdateProfile = ({
+  profile: { profile, isLoading },
+  createOrUpdateProfile,
+  history
+}) => {
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -20,6 +27,26 @@ const CreateProfile = ({ createOrUpdateProfile, history }) => {
     instagram: ''
   });
 
+  useEffect(() => {
+    getCurrentProfile();
+    if (!profile || profile === null) return history.push('/dashboard');
+    setFormData({
+      company: !profile.company || isLoading ? '' : profile.company,
+      website: !profile.website || isLoading ? '' : profile.website,
+      location: !profile.location || isLoading ? '' : profile.location,
+      status: !profile.status || isLoading ? '' : profile.status,
+      skills: !profile.skills || isLoading ? '' : profile.skills.join(','),
+      githubusername:
+        !profile.githubusername || isLoading ? '' : profile.githubusername,
+      bio: !profile.bio || isLoading ? '' : profile.bio,
+      twitter: !profile.social || isLoading ? '' : profile.social.twitter,
+      facebook: !profile.social || isLoading ? '' : profile.social.facebook,
+      linkedin: !profile.social || isLoading ? '' : profile.social.linkedin,
+      youtube: !profile.social || isLoading ? '' : profile.social.youtube,
+      instagram: !profile.social || isLoading ? '' : profile.social.instagram
+    });
+  }, [isLoading]);
+
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   const onChange = (e) => {
@@ -28,13 +55,12 @@ const CreateProfile = ({ createOrUpdateProfile, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createOrUpdateProfile(formData, history);
+    createOrUpdateProfile(formData, history, true);
   };
-
   return (
     <>
       <section className='container'>
-        <h1 className='large text-primary'>Create Your Profile</h1>
+        <h1 className='large text-primary'>Update Your Profile</h1>
         <p className='lead'>
           <i className='fas fa-user' /> Let's get some information to make your
           profile stand out
@@ -182,7 +208,7 @@ const CreateProfile = ({ createOrUpdateProfile, history }) => {
                   value={formData.linkedin}
                   onChange={(e) => onChange(e)}
                   type='text'
-                  placeholder='Linkedin URL'
+                  placeholder='Linkedin URLs'
                   name='linkedin'
                 />
               </div>
@@ -209,11 +235,17 @@ const CreateProfile = ({ createOrUpdateProfile, history }) => {
   );
 };
 
-CreateProfile.propTypes = {
-  createOrUpdateProfile: PropTypes.func.isRequired
+UpdateProfile.propTypes = {
+  createOrUpdateProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
+const mapStateToProps = (state) => ({
+  profile: state.profile
+});
+
 export default connect(
-  null,
-  { createOrUpdateProfile }
-)(withRouter(CreateProfile));
+  mapStateToProps,
+  { createOrUpdateProfile, getCurrentProfile }
+)(withRouter(UpdateProfile));
